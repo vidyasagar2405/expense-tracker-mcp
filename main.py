@@ -1,8 +1,8 @@
-from fastmcp import FastMCP
-import os
-import aiosqlite  # Changed: sqlite3 → aiosqlite
-import tempfile
-from typing import Optional, Any
+from fastmcp import FastMCP ## Importing FastMCP framework
+import os ## file handling
+import aiosqlite  # Changed: sqlite3 → aiosqlite for async operations
+import tempfile ## Added tempfile for handling temporary directory
+from typing import Optional, Any ## Any for better type hinting
 
 
 # Use temporary directory which should be writable
@@ -10,10 +10,14 @@ TEMP_DIR = tempfile.gettempdir()
 DB_PATH = os.path.join(TEMP_DIR, "expenses.db")
 CATEGORIES_PATH = os.path.join(os.path.dirname(__file__), "categories.json")
 
+## Debugging: Print paths to verify
 print(f"Database path: {DB_PATH}")
 
+## creating an instance of FastMCP with the name "ExpenseTracker"
 mcp = FastMCP("ExpenseTracker")
 
+
+## Initialize the database with proper permissions and error handling
 def init_db():  # Keep as sync for initialization
     try:
         # Use synchronous sqlite3 just for initialization
@@ -38,10 +42,12 @@ def init_db():  # Keep as sync for initialization
         print(f"Database initialization error: {e}")
         raise
 
+
 # Initialize database synchronously at module load
 init_db()
 
 
+## Adding async add_expense tool with proper error handling and async database operations
 @mcp.tool()
 async def add_expense(date: str, amount: int, category: str, subcategory: str="", note: str="")  -> dict[str, Any]:  # Changed: added async
     '''Add a new expense entry to the database.'''
@@ -58,7 +64,8 @@ async def add_expense(date: str, amount: int, category: str, subcategory: str=""
         if "readonly" in str(e).lower():
             return {"status": "error", "message": "Database is in read-only mode. Check file permissions."}
         return {"status": "error", "message": f"Database error: {str(e)}"}
-    
+
+ ## Adding async list_expenses tool with proper error handling and async database operations
 @mcp.tool()
 async def list_expenses(start_date: str, end_date:str):  # Changed: added async
     '''List expense entries within an inclusive date range.'''
@@ -78,6 +85,8 @@ async def list_expenses(start_date: str, end_date:str):  # Changed: added async
     except Exception as e:
         return {"status": "error", "message": f"Error listing expenses: {str(e)}"}
 
+
+## Adding async summarize tool with proper error handling and async database operations
 @mcp.tool()
 async def summarize(start_date: str, end_date: str, category: Optional[str]=None):  # Changed: added async
     '''Summarize expenses by category within an inclusive date range.'''
@@ -102,6 +111,8 @@ async def summarize(start_date: str, end_date: str, category: Optional[str]=None
     except Exception as e:
         return {"status": "error", "message": f"Error summarizing expenses: {str(e)}"}
 
+
+## Adding resource endpoint for categories with proper error handling
 @mcp.resource("expense:///categories", mime_type="application/json")  # Changed: expense:// → expense:///
 def categories():
     try:
@@ -129,6 +140,7 @@ def categories():
             return json.dumps(default_categories, indent=2)
     except Exception as e:
         return f'{{"error": "Could not load categories: {str(e)}"}}'
+
 
 # Start the server
 if __name__ == "__main__":
