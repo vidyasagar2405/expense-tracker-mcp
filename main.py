@@ -34,7 +34,7 @@ def init_db():
                     """
             )
             ## test write access to the database
-            c.execute("INSERT OR IGNORE INTO expenses(date, amount, category) VALUES('2000-01-01', 0, 'test')")
+            c.execute("INSERT OR IGNORE INTO expenses(date, amount, category, subcategory) VALUES('2000-01-01', 0, 'test', 'test')")
             c.execute("DELETE FROM expenses WHERE category = 'test'")
             print("Database initialized successfully with write access")
 
@@ -58,7 +58,7 @@ async def add_expense(date :str, amount :float, category : str, subcategory :str
                 """INSERT INTO expenses (date, amount, category, subcategory, note)
                     VALUES (?, ?, ?, ?, ?)
                     """, (date, amount, category, subcategory, note))
-            await c.commit() ## Changed: added await
+            await c.commit() ## commiting the changes to database
             return {"status": "success", "expense_id": cur.lastrowid, "message": "Expense added successfully"}
     except Exception as e:  ## Changed: Simplified exception handling.
         if "readonly" in str(e).lower():
@@ -105,6 +105,7 @@ async def delete_expenses(): ## Changed: added async
     try:
         async with aiosqlite.connect(DB_PATH) as c: ## Changed: added async
             await c.execute("DELETE FROM expenses") ## Changed: added await
+            await c.commit() ## commiting the changes to database
             return {"status": "success", "message": "All expenses have been deleted."}
     except Exception as e: ## handling exceptions.
         return {"status": "error", "message": f"Failed to delete expenses: {e}"}
@@ -119,6 +120,7 @@ async def delete_expense(expense_id: int): # Changed: added async
             cur = await c.execute("DELETE FROM expenses WHERE id = ?", (expense_id,)) # Changed: added await
             if cur.rowcount == 0:
                 return {"status": "error", "message": "Expense not found."}
+            await c.commit() ## commiting the changes to database
             return {"status": "success", "message": f"Expense with id {expense_id} has been deleted."}
     except Exception as e: ## handling exceptions.
         return {"status": "error", "message": f"Failed to delete expense: {e}"}
@@ -140,7 +142,8 @@ async def edit_expense(expense_id: int, date: str , amount: float,
             )
             if cur.rowcount == 0:
                 return {"status": "error", "message": "Expense not found."}
-            return {"status": "success", "messsage": f"Expense with id {expense_id} has been updated."}
+            await c.commit() ## commiting the changes to database
+            return {"status": "success", "message": f"Expense with id {expense_id} has been updated."}
     except Exception as e: ## handling exceptions.
         return {"status": "error", "message": f"Failed to edit expense: {e}"}
     
@@ -200,7 +203,8 @@ def categories():
             import json
             return json.dumps(default_categories, indent = 2)
     except Exception as e: ## handling exceptions.
-        return {"status": "error", "message": f"Failed to load categories: {e}"}
+        import json
+        return json.dumps({"status": "error", "message": f"Failed to load categories: {e}"})
 
 
 if __name__ == "__main__":
