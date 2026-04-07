@@ -105,9 +105,9 @@ This system is designed to be used by AI agents where:
 ## 👤 Author
 
 **Vidya Sagar**
-Navigate to:
-    [GitHub Profile](https://github.com/vidyasagar2405)
-    [LinkedIn Profile](https://www.linkedin.com/in/vidya-sagar-a977672ab)
-    [Portfolio](https://vidyasagar2405.github.io/Empelly-Vidya-Sagar-Portfolio/)
+Navigate to:  
+    [GitHub Profile](https://github.com/vidyasagar2405)  
+    [LinkedIn Profile](https://www.linkedin.com/in/vidya-sagar-a977672ab)  
+    [Portfolio](https://vidyasagar2405.github.io/Empelly-Vidya-Sagar-Portfolio/)  
 
 ---
