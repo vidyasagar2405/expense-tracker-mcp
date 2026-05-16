@@ -1,113 +1,233 @@
+Your updated README should reflect:
+
+* Proper `uv`-based setup workflow
+* Claude Desktop installation steps
+* Difference between local and deployed cloud version
+* Async + `aiosqlite` architecture
+* FastMCP Cloud deployment
+* Real MCP usage instead of generic Python execution
+* Accurate project structure and transport details
+
+I also noticed:
+
+* Local version uses synchronous `sqlite3` tools initially 
+* Cloud version is fully async using `aiosqlite` and HTTP transport 
+* Cloud deployment includes write-permission handling using `tempfile.gettempdir()` 
+* You exposed MCP tools correctly and deployed through FastMCP Cloud with HTTP transport 
+
+Here is the corrected and professional README:
+
+---
+
 # 💰 AI-Powered Expense Tracker (MCP Server)
 
-An AI-compatible expense tracking system built using MCP (Model Context Protocol) architecture with modular tool-based design. This project enables efficient expense management and is designed to integrate seamlessly with AI agents and LLM workflows.
+An AI-compatible Expense Tracking System built using the **Model Context Protocol (MCP)** architecture with a modular tool-based design using **FastMCP**.
+
+This project enables AI agents and LLM applications to manage expenses through MCP tools while supporting scalable async operations and cloud deployment.
 
 ---
 
-## 🚀 Features
+# 🚀 Features
 
-- Add, update, and delete expenses
-- Categorize transactions
-- Async database operations using `aiosqlite`
-- Modular MCP tool-based architecture
-- Designed for AI agent integration
-- Scalable and extensible backend design
-
----
-
-## 🧠 Architecture Overview
-
-This project follows an MCP (Model Context Protocol) pattern where:
-
-- Each operation (add/edit/delete expense) is implemented as a **tool**
-- Tools are exposed to AI agents for automated interaction
-- Backend is designed for **non-blocking async execution**
+* Add, edit, and delete expenses
+* Retrieve expenses with date filtering
+* Expense summarization by category
+* SQLite database integration
+* Async database operations using `aiosqlite`
+* MCP-compatible modular tool architecture
+* Claude Desktop integration
+* FastMCP Cloud deployment support
+* AI Agent & LLM workflow integration
 
 ---
 
-## ⚙️ Tech Stack
+# 🧠 MCP Architecture Overview
 
-- **Language:** Python  
-- **Framework:** FastMCP  
-- **Database:** SQLite  
-- **Async Handling:** aiosqlite  
+This project follows the **Model Context Protocol (MCP)** pattern where:
+
+* Every operation is exposed as an MCP tool
+* AI agents can invoke tools directly
+* Backend is designed for async non-blocking execution
+* Easily extensible for future AI workflows
+
+### Available MCP Tools
+
+| Tool Name                        | Description                   |
+| -------------------------------- | ----------------------------- |
+| `add_expense`                    | Add a new expense             |
+| `get_expenses`                   | Retrieve all expenses         |
+| `get_expenses_within_date_range` | Fetch expenses between dates  |
+| `edit_expense`                   | Update an existing expense    |
+| `delete_expense`                 | Delete a specific expense     |
+| `delete_all_expenses`            | Remove all expenses           |
+| `summarize_expenses`             | Category-wise expense summary |
+| `get_categories`                 | Retrieve available categories |
 
 ---
 
-## 📂 Project Structure
+# ⚙️ Tech Stack
 
-```
-
-.
-├── main.py              # MCP server entry point
-├── categories.json     # Expense categories
-├── expenses.db        # SQLite database
-├── pyproject.toml     # Dependencies
-└── README.md
-
-````
+* **Language:** Python
+* **Framework:** FastMCP
+* **Database:** SQLite
+* **Async Database Handling:** `aiosqlite`
+* **Package Manager:** `uv`
+* **Protocol:** MCP (Model Context Protocol)
 
 ---
 
-## 🛠️ Installation & Setup
+# 📂 Project Structure
 
 ```bash
-# Clone the repository
+.
+├── main.py               # MCP server entry point
+├── categories.json       # Expense categories
+├── expenses.db           # SQLite database
+├── pyproject.toml        # Project dependencies
+└── README.md
+```
+
+---
+
+# 🛠️ Installation & Setup
+
+## 1️⃣ Clone the Repository
+
+```bash
 git clone https://github.com/your-username/expense-tracker-mcp.git
 
 cd expense-tracker-mcp
-
-# Install dependencies
-pip install .
-````
+```
 
 ---
 
-## ▶️ Running the Server
+## 2️⃣ Install UV
 
 ```bash
-python main.py
+pip install uv
 ```
 
 ---
 
-## 🔗 MCP Server Endpoint
+## 3️⃣ Install FastMCP
 
-The server is deployed and accessible via:
-
+```bash
+uv add fastmcp
 ```
+
+---
+
+# ▶️ Running the MCP Server Locally
+
+Run the MCP server locally using:
+
+```bash
+uv run fastmcp run main.py
+```
+
+---
+
+# 🖥️ Install into Claude Desktop
+
+To integrate the MCP server with Claude Desktop:
+
+```bash
+uv run fastmcp install claude-desktop main.py
+```
+
+After installation:
+
+* Open Claude Desktop
+* The MCP server tools will automatically become available
+* Claude can directly invoke expense management tools
+
+---
+
+# ☁️ FastMCP Cloud Deployment
+
+This project is also deployed on **FastMCP Cloud** using HTTP transport.
+
+### Live MCP Endpoint
+
+```bash
 https://expense-tracker-mcp-2405.fastmcp.app/mcp
 ```
 
-> Note: Authentication is required to access the endpoint.
+> Authentication is required to access the deployed endpoint.
 
 ---
 
-## 🤖 Use Case with AI Agents
+# 🔄 Local vs Cloud Version
 
-This system is designed to be used by AI agents where:
+## Local Version
 
-* Agents can call tools to manage expenses
-* Enables automation of financial tracking
-* Can be integrated into LLM workflows (LangChain, etc.)
+* Uses standard SQLite setup
+* Suitable for local MCP integrations
+* Runs directly through FastMCP CLI
+
+## Cloud Version
+
+The deployed cloud version includes additional improvements:
+
+* Fully async implementation using `aiosqlite`
+* HTTP transport support
+* Temporary directory database handling for cloud write permissions
+* Improved exception handling
+* Production-ready async MCP tool execution
 
 ---
 
-## 📈 Future Enhancements
+# 🤖 AI Agent Use Cases
+
+This MCP server can be integrated with:
+
+* Claude Desktop
+* LangChain agents
+* OpenAI Agents SDK
+* Cursor AI
+* MCP-compatible clients
+* Custom AI automation systems
+
+### Example AI Workflows
+
+* “Add ₹500 spent on groceries”
+* “Show expenses for this month”
+* “Summarize food expenses”
+* “Delete expense ID 4”
+
+---
+
+# 📈 Future Enhancements
 
 * Budget tracking system
-* Credit & balance management
-* AI-based expense insights and analytics
-* Natural language expense input via LLM
+* Credit and balance management
+* AI-generated expense insights
+* Natural language expense entry
+* Charts & analytics dashboard
+* Multi-user authentication
+* PostgreSQL migration
 
 ---
 
-## 👤 Author
+# 👨‍💻 Author
 
-**Vidya Sagar**
-Navigate to:  
-    [GitHub Profile](https://github.com/vidyasagar2405)  
-    [LinkedIn Profile](https://www.linkedin.com/in/vidya-sagar-a977672ab)  
-    [Portfolio](https://vidyasagar2405.github.io/Empelly-Vidya-Sagar-Portfolio/)  
+## Vidya Sagar
+
+* [GitHub Profile](https://github.com/vidyasagar2405?utm_source=chatgpt.com)
+* [LinkedIn Profile](https://www.linkedin.com/in/vidya-sagar-a977672ab/?utm_source=chatgpt.com)
+* [Portfolio](https://vidyasagar2405.github.io/Empelly-Vidya-Sagar-Portfolio/?utm_source=chatgpt.com)
 
 ---
+
+# ⭐ Why This Project Matters
+
+This project demonstrates:
+
+* Real-world MCP architecture implementation
+* AI-agent compatible backend engineering
+* Async Python backend development
+* Tool-oriented AI system design
+* Cloud-deployable MCP infrastructure
+* Production-oriented modular architecture
+
+It is designed not just as an expense tracker, but as a foundational MCP system for AI-native applications.
