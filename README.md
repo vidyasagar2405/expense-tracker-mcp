@@ -1,24 +1,3 @@
-Your updated README should reflect:
-
-* Proper `uv`-based setup workflow
-* Claude Desktop installation steps
-* Difference between local and deployed cloud version
-* Async + `aiosqlite` architecture
-* FastMCP Cloud deployment
-* Real MCP usage instead of generic Python execution
-* Accurate project structure and transport details
-
-I also noticed:
-
-* Local version uses synchronous `sqlite3` tools initially 
-* Cloud version is fully async using `aiosqlite` and HTTP transport 
-* Cloud deployment includes write-permission handling using `tempfile.gettempdir()` 
-* You exposed MCP tools correctly and deployed through FastMCP Cloud with HTTP transport 
-
-Here is the corrected and professional README:
-
----
-
 # 💰 AI-Powered Expense Tracker (MCP Server)
 
 An AI-compatible Expense Tracking System built using the **Model Context Protocol (MCP)** architecture with a modular tool-based design using **FastMCP**.
