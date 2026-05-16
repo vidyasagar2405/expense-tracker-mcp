@@ -128,9 +128,7 @@ This project is also deployed on **FastMCP Cloud** using HTTP transport.
 
 ### Live MCP Endpoint
 
-```bash
 [Live server](https://expense-tracker-mcp-2405.fastmcp.app/mcp)
-```
 
 > Authentication is required to access the deployed endpoint.
 
@@ -178,6 +176,8 @@ This MCP server can be integrated with:
 
 ### Demo Video
 [Youtube](https://youtu.be/cwKEmrP9Dd8)
+
+---
 
 # 📈 Future Enhancements
 
