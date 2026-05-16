@@ -128,7 +128,7 @@ This project is also deployed on **FastMCP Cloud** using HTTP transport.
 
 ### Live MCP Endpoint
 
-[Live server](https://expense-tracker-mcp-2405.fastmcp.app/mcp)
+[Live MCP server Endpoint](https://expense-tracker-mcp-2405.fastmcp.app/mcp)
 
 > Authentication is required to access the deployed endpoint.
 
